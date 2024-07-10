@@ -1,5 +1,5 @@
-import Image from "next/image";
+import FormCop from "././components/FormComp";
 
 export default function Home() {
-  return <main>hello</main>;
+  return <FormCop />;
 }
