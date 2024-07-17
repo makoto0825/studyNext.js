@@ -1,18 +1,21 @@
-import { useOptimistic, useState, useRef } from "react";
+import { useOptimistic, useRef } from "react";
 
 interface ThreadProps {
   messages: { text: string; sending: boolean; key: number }[];
-  sendMessage: (formData: FormData) => Promise<void>;
+  sendMessage: (formData: FormData) => void;
 }
 
-function UseOptimistic({ messages, sendMessage }: ThreadProps) {
-  const formRef = useRef<HTMLFormElement | null>(null);
-  async function formAction(formData: FormData) {
+const UseOptimistic = ({ messages, sendMessage }: ThreadProps) => {
+  const formRef = useRef<HTMLFormElement>(null);
+
+  //Action
+  const formAction = async (formData: FormData) => {
     addOptimisticMessage(formData.get("message"));
     formRef.current!.reset();
-
+    //サーバー側での処理として仮定。でーだベースの処理を想定
+    //今回はサーバー側の処理をシミュレートするためにsendMessageを使用
     await sendMessage(formData);
-  }
+  };
   const [optimisticMessages, addOptimisticMessage] = useOptimistic(
     messages,
     (state, newMessage) => [
@@ -39,6 +42,6 @@ function UseOptimistic({ messages, sendMessage }: ThreadProps) {
       </form>
     </>
   );
-}
+};
 
 export default UseOptimistic;

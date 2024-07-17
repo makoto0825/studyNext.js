@@ -10,6 +10,6 @@ export const putcart = async (prev: string | null, formDate: FormData) => {
 };
 
 export async function deliverMessage(message: string) {
-  await new Promise((res) => setTimeout(res, 1000));
+  await new Promise((res) => setTimeout(res, 2000));
   return message;
 }
