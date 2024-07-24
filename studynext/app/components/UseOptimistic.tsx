@@ -1,36 +1,35 @@
 import { useOptimistic, useRef } from "react";
 
 interface ThreadProps {
-  messages: { text: string; sending: boolean; key: number }[];
+  originalState: { text: string; sending: boolean; key: number }[];
   sendMessage: (formData: FormData) => void;
 }
 
-const UseOptimistic = ({ messages, sendMessage }: ThreadProps) => {
+const UseOptimistic = ({ originalState, sendMessage }: ThreadProps) => {
   const formRef = useRef<HTMLFormElement>(null);
 
-  //Action
+  //Server Action
   const formAction = async (formData: FormData) => {
-    addOptimisticMessage(formData.get("message"));
+    addOptimistic(formData.get("message")); //update useOptimistic state
     formRef.current!.reset();
-    //サーバー側での処理として仮定。でーだベースの処理を想定
-    //今回はサーバー側の処理をシミュレートするためにsendMessageを使用
-    await sendMessage(formData);
+    //Assumed server-side processing(Data based)
+    await sendMessage(formData); //update original state
   };
-  const [optimisticMessages, addOptimisticMessage] = useOptimistic(
-    messages,
-    (state, newMessage) => [
-      ...state,
+  const [optimisticState, addOptimistic] = useOptimistic(
+    originalState,
+    (currentState, optimisticValue) => [
+      ...currentState,
       {
-        text: newMessage as string,
+        text: optimisticValue as string,
         sending: true,
-        key: state.length + 1,
+        key: currentState.length + 1,
       },
     ]
   );
 
   return (
     <>
-      {optimisticMessages.map((message, index) => (
+      {optimisticState.map((message, index) => (
         <div key={index}>
           {message.text}
           {!!message.sending && <small> (Sending...)</small>}

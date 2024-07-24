@@ -1,22 +1,24 @@
 "use client";
 import UseOptimistic from "././components/UseOptimistic";
 import { useState } from "react";
-import { deliverMessage } from "././components/functions";
 
 export default function Home() {
-  //useState
-  const [messages, setMessages] = useState([
+  //useState(original state)
+  const [originalState, setOriginalState] = useState([
     { text: "Hello there!", sending: false, key: 1 },
   ]);
 
-  //function update state
+  //function update original state
   const sendMessage = async (formData: FormData) => {
-    const sentMessage = await deliverMessage(formData.get("message") as string);
-    setMessages((messages) => [
-      ...messages,
-      { text: sentMessage, sending: false, key: messages.length + 1 },
+    await new Promise((res) => setTimeout(res, 2000));
+    const sentMessage = formData.get("message") as string;
+    setOriginalState((originalState) => [
+      ...originalState,
+      { text: sentMessage, sending: false, key: originalState.length + 1 },
     ]);
   };
 
-  return <UseOptimistic messages={messages} sendMessage={sendMessage} />;
+  return (
+    <UseOptimistic originalState={originalState} sendMessage={sendMessage} />
+  );
 }

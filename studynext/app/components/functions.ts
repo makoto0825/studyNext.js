@@ -9,7 +9,7 @@ export const putcart = async (prev: string | null, formDate: FormData) => {
   return prev;
 };
 
-export async function deliverMessage(message: string) {
-  await new Promise((res) => setTimeout(res, 2000));
-  return message;
-}
+// export async function deliverMessage(message: string) {
+//   await new Promise((res) => setTimeout(res, 2000));
+//   return message;
+// }
