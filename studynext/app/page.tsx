@@ -3,7 +3,7 @@ import UseOptimistic from '././components/UseOptimistic';
 import { useState } from 'react';
 
 export default function Home() {
-  //useState(original state)//
+  //useState(original state)////
   const [originalState, setOriginalState] = useState([
     { text: 'Hello there!', sending: false, key: 1 },
   ]);
